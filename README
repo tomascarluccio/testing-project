@@ -1,0 +1,81 @@
+#
+# Eclipse & TestNG
+#
+Select Help / Install New Software...
+Enter the update site URL in "Work with:" field:
+Update site for release: https://testng.org/testng-eclipse-update-site.
+Make sure the check box next to URL is checked and click Next.
+Eclipse will then guide you through the process.
+
+
+#
+# Environment
+#
+export ANDROID_HOME="/home/<user>/Android/Sdk/"
+export ANDROID_SDK_ROOT=$ANDROID_HOME
+export PATH="$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$PATH"
+export JAVA_HOME="/usr/lib/jvm/<open-jdk>"
+	
+
+#
+# Appium Server
+#
+sudo apt-get install virtualenv nodejs npm -y
+
+virtualenv appium-venv --python=/usr/bin/python3
+source appium-venv/bin/activate
+pip install nodeenv
+nodeenv --node=18.12.1 --python-virtualenv
+npm install -g appium appium-doctor
+appium-doctor --android
+
+
+#
+# Appium Desktop
+#
+wget https://github.com/appium/appium-desktop/releases/download/v1.22.3-4/Appium-Server-GUI-linux-1.22.3-4.AppImage
+chmod u+x Appium-Server-GUI-linux-1.22.3-4.AppImage
+./Appium-Server-GUI-linux-1.22.3-4.AppImage
+
+
+#
+# Appium Inspector
+#
+# /wd/hub
+# platformName Android
+wget https://github.com/appium/appium-inspector/releases/download/v2022.9.1/Appium-Inspector-linux-2022.9.1.AppImage
+chmod u+x Appium-Inspector-linux-2022.9.1.AppImage
+./Appium-Inspector-linux-2022.9.1.AppImage
+
+
+
+#
+# Run app with Android Emulator
+#
+export EMULATOR=$(/home/$USER/Android/Sdk/emulator/emulator -list-avds | head -n 1)
+/home/$USER/Android/Sdk/emulator/emulator -avd $EMULATOR -port 4724 -netdelay none -netspeed full
+/home/$USER/Android/Sdk/platform-tools/adb uninstall <package_name>
+/home/$USER/Android/Sdk/platform-tools/adb install <path_to_apk>
+/home/$USER/Android/Sdk/platform-tools/adb shell monkey -p <package_name> -c android.intent.category.LAUNCHER 1
+
+
+/home/$USER/Android/Sdk/platform-tools/adb uninstall com.example.myapplication
+/home/$USER/Android/Sdk/platform-tools/adb install /home/tdm/Altipeak/MyApplication/app/build/outputs/apk/debug/app-debug.apk
+/home/$USER/Android/Sdk/platform-tools/adb shell monkey -p com.example.myapplication -c android.intent.category.LAUNCHER 1
+
+
+
+C:/Users/Timo/AppData/Local/Android/Sdk/emulator/emulator -list-avds
+C:/Users/Timo/AppData/Local/Android/Sdk/emulator/emulator -avd Pixel_3a_API_33_x86_64 -port 4724 -netdelay none -netspeed full
+C:/Users/Timo/AppData/Local/Android/Sdk/platform-tools/adb uninstall com.altipeak.auth.safewalkfido
+C:/Users/Timo/AppData/Local/Android/Sdk/platform-tools/adb install C:/Users/Timo/Desktop/testing/safewalk-testing/src/main/resources/fastauth3.4.5.120.apk
+C:/Users/Timo/AppData/Local/Android/Sdk/platform-tools/adb shell monkey -p com.altipeak.auth.safewalkfido -c android.intent.category.LAUNCHER 1
+
+
+
+
+#
+# Import SSL certificate
+#
+/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home/bin/keytool -import -v -trustcacerts -alias 192.168.1.91 -file /Users/tdm/Downloads/DevOps.cer -keystore KeyStore.jks -keypass changeit -storepass changeit 
+

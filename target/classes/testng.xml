@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<suite name="Suite" thread-count="1" parallel="none" data-provider-thread-count="20" time-out="10800000">
+
+ <test name="OrchestratorUI" thread-count="1" parallel="none">
+<classes>
+<class name="tests.orchestrator.DeleteCustomerTest"/>
+ <class name="tests.orchestrator.AddCustomerTest"/>
+    <class name="tests.orchestrator.AddInternalUsersTest"/>
+        <class name="tests.orchestrator.ChangeCustomerDomain"/>
+        <class name="tests.orchestrator.ImportLicensesTest"/>
+         <class name="tests.orchestrator.ResourcesManagerTest"/>
+        <class name="tests.orchestrator.SynchronizeTenantLicensesTest"/>
+        <class name="tests.orchestrator.TroubleshootingPackageTest"/>
+        <class name="tests.orchestrator.TroubleshootingLogTest"/>
+        <class name="tests.orchestrator.DeleteCustomerTest"/>
+        <class name="tests.orchestrator.UpdateApplianceVersionTest"/>
+	<class name="tests.orchestrator.TroubleshootingPackageTest"/>
+	<class name="tests.orchestrator.TroubleshootingLogTest"/>
+	<class name="tests.orchestrator.SystemBackupTest"/>
+
+</classes>
+</test>
+
+ <test name="TenantUI" thread-count="1" parallel="none">
+      <classes>
+       <class name="tests.orchestrator.AddCustomerTest"/>
+       <class name="tests.tenant.superadmin.ImportPhysicalTokensTest"/>
+        <class name="tests.tenant.superadmin.InternalUsersTest"/>
+        <class name="tests.tenant.superadmin.LDAPConfigurationTest"/>
+       <class name="tests.tenant.superadmin.AgentConnectorTest"/>
+       <class name="tests.tenant.superadmin.DefaultSettingTest"/>
+         <class name="tests.tenant.superadmin.MessageDeliveryGatewayTest"/>
+        <class name="tests.tenant.superadmin.OrganizationLogoTest"/>
+        <class name="tests.tenant.superadmin.RadiusClientTest"/>
+        <class name="tests.tenant.superadmin.SAMLIntegrationTest"/>
+        <class name="tests.tenant.selfserviceportal.SelfServicePortalTest"/>
+       <class name="tests.tenant.superadmin.TroubleshootingLogTest"/>
+       <class name="tests.tenant.superadmin.TroubleshootingPackageTest"/>
+        <class name="tests.tenant.managementconsole.ManagementConsoleTest"/>
+
+<class name="tests.orchestrator.DeleteCustomerTest"/>
+</classes>
+</test>
+
+<!--  <test name="TenantAuthAPI" thread-count="1" parallel="none">
+
+    <classes>
+      <class name="tests.orchestrator.AddCustomerTest"/>
+       <class name="tests.tenant.authentication.AuthenticationTestSetup"/>
+      <class name="tests.tenant.authentication.TestUsersCleanup"/>
+     <class name="tests.tenant.authentication.api.APISingleStepStaticPassword"/>
+     <class name="tests.tenant.authentication.api.APISingleStepBackupCode"/>
+     <class name="tests.tenant.authentication.api.APISingleStepTOTP"/>
+     <class name="tests.tenant.authentication.api.API2StepTOTP"/>
+     <class name="tests.tenant.authentication.api.API2StepBackupCode"/>
+     <class name="tests.tenant.authentication.api.APISingleStepQR"/>
+     <class name="tests.tenant.authentication.api.APISingleStepPush"/>
+     <class name="tests.tenant.authentication.api.APIPushFallbackTest"/>
+     <class name="tests.tenant.authentication.api.API2StepVirtualOTP"/>
+     <class name="tests.tenant.authentication.api.APISingleStepPasswordTOTP"/>
+
+</classes>
+ </test>
+
+<test name="Cleanup" thread-count="1" parallel="none">
+
+    <classes>
+      <class name="tests.tenant.authentication.TestUsersCleanup"/>
+     <class name="tests.orchestrator.DeleteCustomerTest"/>
+      </classes>
+
+ </test>
+  <test name="TenantRadiusAuth" thread-count="1" parallel="none">
+<classes>
+   <class name="tests.orchestrator.DeleteCustomerTest"/>
+     <class name="tests.orchestrator.AddCustomerTest"/>
+     <class name="tests.tenant.authentication.AuthenticationTestSetup"/>
+     <class name="tests.tenant.authentication.radius.RadiusSingleStepStaticPassword"/>
+     <class name="tests.tenant.authentication.radius.RadiusSingleStepBackupCode"/>
+     <class name="tests.tenant.authentication.radius.RadiusSingleStepPush"/>
+     <class name="tests.tenant.authentication.radius.Radius2StepBackupCode"/>
+     <class name="tests.tenant.authentication.radius.RadiusSingleStepTOTP"/>
+     <class name="tests.tenant.authentication.radius.RadiusSingleStepPush"/>
+     <class name="tests.tenant.authentication.radius.Radius2StepTOTP"/>
+     <class name="tests.tenant.authentication.radius.Radius2StepBackupCode"/>
+     <class name="tests.tenant.authentication.radius.RadiusSingleStepPasswordTOTP"/>
+     </classes>
+  </test> -->
+
+<test name="PostmanOcTnt" thread-count="1" parallel="none">
+
+   <classes>
+    <class name="tests.orchestrator.postman.PostmanAPITest"/>
+       <class name="tests.tenant.postman.PostmanAPITest"/>
+      </classes>
+
+ </test>
+
+ <test name="Cleanup2" thread-count="1" parallel="none">
+    <classes>
+    <class name="tests.tenant.superadmin.TroubleshootingPackageTest"/>
+    <class name="tests.tenant.authentication.TestUsersCleanup"/>
+   <class name="tests.orchestrator.DeleteCustomerTest"/>
+      </classes>
+
+ </test>
+</suite>
+

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="merge"
+           tests="2"
+           failures="1"
+           errors="0"
+           skipped="0"
+           time="318.720">
+    <properties></properties>
+
+            <testcase
+                name="addCustomer"
+                time="314.045"
+                classname="tests.orchestrator.AddCustomerTest">
+
+            <failure type="java.net.SocketTimeoutException" message="Read timed out">
+                <![CDATA[java.net.SocketTimeoutException: Read timed out
+                java.base/sun.nio.ch.NioSocketImpl.timedRead(NioSocketImpl.java:288)java.base/sun.nio.ch.NioSocketImpl.implRead(NioSocketImpl.java:314)java.base/sun.nio.ch.NioSocketImpl.read(NioSocketImpl.java:355)java.base/sun.nio.ch.NioSocketImpl$1.read(NioSocketImpl.java:808)java.base/java.net.Socket$SocketInputStream.read(Socket.java:966)java.base/sun.security.ssl.SSLSocketInputRecord.read(SSLSocketInputRecord.java:484)java.base/sun.security.ssl.SSLSocketInputRecord.readHeader(SSLSocketInputRecord.java:478)java.base/sun.security.ssl.SSLSocketInputRecord.bytesInCompletePacket(SSLSocketInputRecord.java:70)java.base/sun.security.ssl.SSLSocketImpl.readApplicationRecord(SSLSocketImpl.java:1465)java.base/sun.security.ssl.SSLSocketImpl$AppInputStream.read(SSLSocketImpl.java:1069)java.base/java.io.BufferedInputStream.fill(BufferedInputStream.java:244)java.base/java.io.BufferedInputStream.read1(BufferedInputStream.java:284)java.base/java.io.BufferedInputStream.read(BufferedInputStream.java:343)java.base/sun.net.www.http.HttpClient.parseHTTPHeader(HttpClient.java:826)java.base/sun.net.www.http.HttpClient.parseHTTP(HttpClient.java:761)java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1688)java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1589)java.base/java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:529)java.base/sun.net.www.protocol.https.HttpsURLConnectionImpl.getResponseCode(HttpsURLConnectionImpl.java:308)utils.Request.base(Request.java:79)utils.Request.doPost(Request.java:150)tests.tenant.API.insertLicensesToTenant(API.java:657)tests.orchestrator.AddCustomerTest.addCustomer(AddCustomerTest.java:79)java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)java.base/java.lang.reflect.Method.invoke(Method.java:568)org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:135)org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:673)org.testng.internal.invokers.TestInvoker.invokeTestMethod(TestInvoker.java:220)org.testng.internal.invokers.MethodRunner.runInSequence(MethodRunner.java:50)org.testng.internal.invokers.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:945)org.testng.internal.invokers.TestInvoker.invokeTestMethods(TestInvoker.java:193)org.testng.internal.invokers.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:146)org.testng.internal.invokers.TestMethodWorker.run(TestMethodWorker.java:128)java.base/java.util.ArrayList.forEach(ArrayList.java:1511)org.testng.TestRunner.privateRun(TestRunner.java:808)org.testng.TestRunner.run(TestRunner.java:603)org.testng.SuiteRunner.runTest(SuiteRunner.java:429)org.testng.SuiteRunner.runSequentially(SuiteRunner.java:423)org.testng.SuiteRunner.privateRun(SuiteRunner.java:383)org.testng.SuiteRunner.run(SuiteRunner.java:326)org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:95)org.testng.TestNG.runSuitesSequentially(TestNG.java:1249)org.testng.TestNG.runSuitesLocally(TestNG.java:1169)org.testng.TestNG.runSuites(TestNG.java:1092)org.testng.TestNG.run(TestNG.java:1060)com.intellij.rt.testng.IDEARemoteTestNG.run(IDEARemoteTestNG.java:66)com.intellij.rt.testng.RemoteTestNGStarter.main(RemoteTestNGStarter.java:105)
+]]>
+            </failure>
+    </testcase>
+
+
+            <testcase
+                name="login"
+                time="4.675"
+                classname="tests.orchestrator.AddCustomerTest">
+            </testcase>
+</testsuite>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="merge"
+           tests="2"
+           failures="2"
+           errors="0"
+           skipped="0"
+           time="0.005">
+    <properties></properties>
+
+            <testcase
+                name="login"
+                time="0.004"
+                classname="tests.tenant.superadmin.GatewayConfigurationTest">
+
+            <failure type="java.lang.NullPointerException" message="Cannot invoke &quot;org.openqa.selenium.WebDriver.get(String)&quot; because &quot;this.driver&quot; is null">
+                <![CDATA[java.lang.NullPointerException: Cannot invoke "org.openqa.selenium.WebDriver.get(String)" because "this.driver" is null
+                tests.tenant.superadmin.LoginTest.login(LoginTest.java:27)java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)java.base/java.lang.reflect.Method.invoke(Method.java:568)org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:135)org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:673)org.testng.internal.invokers.TestInvoker.invokeTestMethod(TestInvoker.java:220)org.testng.internal.invokers.TestMethodWithDataProviderMethodWorker.call(TestMethodWithDataProviderMethodWorker.java:80)org.testng.internal.invokers.TestMethodWithDataProviderMethodWorker.call(TestMethodWithDataProviderMethodWorker.java:17)java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539)java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)java.base/java.lang.Thread.run(Thread.java:840)
+]]>
+            </failure>
+    </testcase>
+            <testcase
+                name="swtupGatewayConf"
+                time="0.001"
+                classname="tests.tenant.superadmin.GatewayConfigurationTest">
+
+            <failure type="java.lang.NullPointerException" message="Cannot invoke &quot;org.openqa.selenium.WebDriver.get(String)&quot; because &quot;this.driver&quot; is null">
+                <![CDATA[java.lang.NullPointerException: Cannot invoke "org.openqa.selenium.WebDriver.get(String)" because "this.driver" is null
+                tests.tenant.superadmin.GatewayConfigurationTest.swtupGatewayConf(GatewayConfigurationTest.java:26)java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)java.base/java.lang.reflect.Method.invoke(Method.java:568)org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:135)org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:673)org.testng.internal.invokers.TestInvoker.invokeTestMethod(TestInvoker.java:220)org.testng.internal.invokers.MethodRunner.runInSequence(MethodRunner.java:50)org.testng.internal.invokers.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:945)org.testng.internal.invokers.TestInvoker.invokeTestMethods(TestInvoker.java:193)org.testng.internal.invokers.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:146)org.testng.internal.invokers.TestMethodWorker.run(TestMethodWorker.java:128)java.base/java.util.ArrayList.forEach(ArrayList.java:1511)org.testng.TestRunner.privateRun(TestRunner.java:808)org.testng.TestRunner.run(TestRunner.java:603)org.testng.SuiteRunner.runTest(SuiteRunner.java:429)org.testng.SuiteRunner.runSequentially(SuiteRunner.java:423)org.testng.SuiteRunner.privateRun(SuiteRunner.java:383)org.testng.SuiteRunner.run(SuiteRunner.java:326)org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:95)org.testng.TestNG.runSuitesSequentially(TestNG.java:1249)org.testng.TestNG.runSuitesLocally(TestNG.java:1169)org.testng.TestNG.runSuites(TestNG.java:1092)org.testng.TestNG.run(TestNG.java:1060)com.intellij.rt.testng.IDEARemoteTestNG.run(IDEARemoteTestNG.java:66)com.intellij.rt.testng.RemoteTestNGStarter.main(RemoteTestNGStarter.java:105)
+]]>
+            </failure>
+    </testcase>
+
+
+</testsuite>

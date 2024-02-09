@@ -1,0 +1,21 @@
+<suite name="Suite" thread-count="1" parallel="none" data-provider-thread-count="20">
+
+
+   <test name="Test1" thread-count="1" parallel="none">
+
+    <classes>
+      <class name="tests.orchestrator.AddCustomerTest"/>
+       <class name="tests.tenant.authentication.AuthenticationTestSetup"/>
+      <class name="tests.tenant.TestUsersCleanup"/>
+    <class name="tests.tenant.authentication.APISingleStepTOTP"/>
+          </classes>
+
+ </test> 
+
+<test name="Test3" thread-count="1" parallel="none">
+<classes>
+<class name="tests.tenant.TestUsersCleanup"/>
+<class name="tests.orchestrator.DeleteCustomerTest"/>
+</classes>
+</test>
+	</suite>

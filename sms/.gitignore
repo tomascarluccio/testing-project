@@ -1,0 +1,4 @@
+.idea/
+venv/
+docker/build/files/safewalk-testing/
+docker/build/files/sms/

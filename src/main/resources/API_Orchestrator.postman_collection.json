@@ -1,0 +1,1880 @@
+{
+	"info": {
+		"_postman_id": "1780790d-e64c-4bfe-8bb6-24bfc7472cf6",
+		"name": "API_Orchestrator",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18303830"
+	},
+	"item": [
+		{
+			"name": "Orchestrator Create",
+			"item": [
+				{
+					"name": "Appliance version",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{safewalk-server}}:{{server-port}}/api/v1/multitenancy/appliance_version/",
+							"protocol": "https",
+							"host": [
+								"{{safewalk-server}}"
+							],
+							"port": "{{server-port}}",
+							"path": [
+								"api",
+								"v1",
+								"multitenancy",
+								"appliance_version",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Tenant",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"    utils.sleep(10000);",
+									"    checkIfCreated();",
+									"});",
+									"",
+									"",
+									"function checkIfCreated(){",
+									"    const url = \"https://\"+ environment[\"safewalk-server\"] + \":\" + environment[\"server-port\"] + \"/api/v1/multitenancy/customer/\"+ (environment['tenant-id']) + \"/status/\";",
+									"",
+									"    pm.sendRequest({",
+									"        url: url,",
+									"        method: 'GET',",
+									"        header: {",
+									"            'content-type': 'application/json',",
+									"            'authorization': \"Bearer \"+ environment[\"oc-access-token\"]",
+									"        },",
+									"",
+									"    }, function (error, response) {",
+									"        let status = response.json();",
+									"",
+									"        if(response.json()[\"runtime-info\"].status == \"f\"){",
+									"            test.tenantFailed();",
+									"            return",
+									"        }",
+									"",
+									"        if(response.json()[\"runtime-info\"].status != \"r\"){",
+									"            console.log(\"Not ready yet...\");",
+									"            utils.sleep(15000);",
+									"            checkIfCreated();",
+									"            return;",
+									"        }",
+									"        ",
+									"        test.tenantRunningTest(status);",
+									"        test.checkVersionTest(status);       ",
+									"        console.log(\"Tenant created\")",
+									"    });",
+									"  ",
+									"}",
+									"setTimeout(() => {}, 10000);",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Content-Transfer-Encoding",
+								"value": "utf-8",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{tenant-id}}\",\r\n    \"domain\": \"{{tenant-lan-domain}}\",\r\n    \"gateway_domain\": \"{{tenant-dmz-domain}}\",\r\n    \"requirements_level\": \"Low\",\r\n    \"admin_name\": \"admin\",\r\n    \"admin_password\": \"Safewalk1\",\r\n    \"bundle_version\": \"{{stable-appliance-version}}\",\r\n    \"custom_settings\": {\r\n        \"logging_level\": \"DEBUG\",\r\n        \"backup_timeout_in_seconds\": 3000,\r\n        \"enable_ssp_conf\": true\r\n        \r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{safewalk-server}}:{{server-port}}/api/v1/multitenancy/customer/create/",
+							"protocol": "https",
+							"host": [
+								"{{safewalk-server}}"
+							],
+							"port": "{{server-port}}",
+							"path": [
+								"api",
+								"v1",
+								"multitenancy",
+								"customer",
+								"create",
+								""
+							]
+						},
+						"description": "ULTIMA PRUEBA"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Tenant - different gateway",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"    utils.sleep(10000);",
+									"    checkIfCreated();",
+									"});",
+									"",
+									"",
+									"function checkIfCreated(){",
+									"    const url = \"https://\"+ environment[\"safewalk-server\"] + \":\" + environment[\"server-port\"] + \"/api/v1/multitenancy/customer/automation3/status/\";",
+									"",
+									"    pm.sendRequest({",
+									"        url: url,",
+									"        method: 'GET',",
+									"        header: {",
+									"            'content-type': 'application/json',",
+									"            'authorization': \"Bearer \"+ environment[\"oc-access-token\"]",
+									"        },",
+									"",
+									"    }, function (error, response) {",
+									"        let status = response.json();",
+									"",
+									"        if(response.json()[\"runtime-info\"].status == \"f\"){",
+									"            test.tenantFailed();",
+									"            return",
+									"        }",
+									"",
+									"        if(response.json()[\"runtime-info\"].status != \"r\"){",
+									"            console.log(\"Not ready yet...\");",
+									"            utils.sleep(15000);",
+									"            checkIfCreated();",
+									"            return;",
+									"        }",
+									"        ",
+									"        test.tenantRunningTest(status);",
+									"        test.checkVersionTest(status);       ",
+									"        console.log(\"Tenant created\")",
+									"    });",
+									"  ",
+									"}",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"setTimeout(() => {}, 60000);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Content-Transfer-Encoding",
+								"value": "utf-8",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "automation3",
+									"type": "text"
+								},
+								{
+									"key": "domain",
+									"value": "autoamtion-test.sw-admin.dev.safewalk.info",
+									"type": "text"
+								},
+								{
+									"key": "requirements_level",
+									"value": "Low",
+									"type": "text"
+								},
+								{
+									"key": "admin_name",
+									"value": "admin",
+									"type": "text"
+								},
+								{
+									"key": "admin_password",
+									"value": "Safewalk1",
+									"type": "text"
+								},
+								{
+									"key": "contact_name",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "contact_email",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "contact_phone",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "gateway_domain",
+									"value": "automation-test.dev.safewalk.info",
+									"type": "text"
+								},
+								{
+									"key": "bundle_version",
+									"value": "{{stable-appliance-version}}",
+									"type": "text"
+								},
+								{
+									"key": "deployment_region",
+									"value": "ASIA",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{safewalk-server}}:{{server-port}}/api/v1/multitenancy/customer/create/",
+							"protocol": "https",
+							"host": [
+								"{{safewalk-server}}"
+							],
+							"port": "{{server-port}}",
+							"path": [
+								"api",
+								"v1",
+								"multitenancy",
+								"customer",
+								"create",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Tenant - different gateway",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"    utils.sleep(5000);\r",
+									"    checkIfDeleted();\r",
+									"});\r",
+									"\r",
+									"let counter = 0;\r",
+									"\r",
+									"function checkIfDeleted(){\r",
+									"    const url = \"https://\"+ environment[\"safewalk-server\"] + \":\" + environment[\"server-port\"] + \"/api/v1/multitenancy/customer/automation3/status/\";\r",
+									"\r",
+									"    pm.sendRequest({\r",
+									"        url: url,\r",
+									"        method: 'GET',\r",
+									"        header: {\r",
+									"            'content-type': 'application/json',\r",
+									"            'authorization': \"Bearer \"+ environment[\"oc-access-token\"]\r",
+									"        },\r",
+									"\r",
+									"    }, function (error, response) {\r",
+									"        let status = response.json();\r",
+									"        counter++;\r",
+									"        \r",
+									"        if(counter >= 50){\r",
+									"            pm.expect.fail(\"Timeout Error\");\r",
+									"        }\r",
+									"\r",
+									"        if(response.json()[\"error\"] != \"Customer matching query does not exist.\"){\r",
+									"            console.log(\"Not ready yet...\");\r",
+									"            utils.sleep(6000);\r",
+									"            return checkIfDeleted();\r",
+									"        }\r",
+									"\r",
+									"        pm.test(\"customer doesnt exists\", function () {\r",
+									"            pm.expect(status.error).to.equal(\"Customer matching query does not exist.\");\r",
+									"        });\r",
+									"    });\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"setTimeout(() => {}, 60000);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "https://{{safewalk-server}}:{{server-port}}/api/v1/multitenancy/customer/automation3/",
+							"protocol": "https",
+							"host": [
+								"{{safewalk-server}}"
+							],
+							"port": "{{server-port}}",
+							"path": [
+								"api",
+								"v1",
+								"multitenancy",
+								"customer",
+								"automation3",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "pre-request migrate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// pm.environment.set(\"appliance-version\", environment[\"migration-appliance-version\"]);\r",
+									"// pm.environment.set(\"safewalk-version\", environment[\"migration-safewalk-version\"]);\r",
+									"\r",
+									"// pm.test(\"Status code is 200\", function () {\r",
+									"//     pm.response.to.have.status(200);\r",
+									"// });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{safewalk-server}}:{{server-port}}/api/v1/multitenancy/customer/{{tenant-id}}/status/",
+							"protocol": "https",
+							"host": [
+								"{{safewalk-server}}"
+							],
+							"port": "{{server-port}}",
+							"path": [
+								"api",
+								"v1",
+								"multitenancy",
+								"customer",
+								"{{tenant-id}}",
+								"status",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Migrate tenant",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    utils.sleep(8000);\r",
+									"    checkIfMigrated();\r",
+									"});\r",
+									"\r",
+									"\r",
+									"function checkIfMigrated(){\r",
+									"    const url = \"https://\"+ environment[\"safewalk-server\"] + \":\" + environment[\"server-port\"] + \"/api/v1/multitenancy/customer/\"+ (environment['tenant-id']) + \"/status/\";\r",
+									"\r",
+									"    pm.sendRequest({\r",
+									"        url: url,\r",
+									"        method: 'GET',\r",
+									"        header: {\r",
+									"            'content-type': 'application/json',\r",
+									"            'authorization': \"Bearer \"+ environment[\"oc-access-token\"]\r",
+									"        },\r",
+									"\r",
+									"    }, function (error, response) {\r",
+									"        let status = response.json();\r",
+									"\r",
+									"        if(response.json()[\"runtime-info\"].status == \"f\"){\r",
+									"            test.tenantFailed();\r",
+									"            return\r",
+									"        }\r",
+									"\r",
+									"        if(response.json()[\"runtime-info\"].status != \"r\"){\r",
+									"            console.log(\"Not ready yet...\");\r",
+									"            utils.sleep(15000);\r",
+									"            return checkIfMigrated();\r",
+									"            // return;\r",
+									"        }\r",
+									"        \r",
+									"        test.tenantRunningTest(status);\r",
+									"        test.checkTargetVersionTest(status);           \r",
+									"        console.log(\"Tenant migrated successfully\")\r",
+									"    });\r",
+									"  \r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// console.log(environment[\"appliance-version\"]);\r",
+									"\r",
+									"// console.log(\"actualizo\");\r",
+									"// pm.environment.set(\"appliance-version\", environment[\"migration-appliance-version\"]);\r",
+									"// pm.environment.set(\"safewalk-version\", environment[\"migration-safewalk-version\"]);\r",
+									"\r",
+									"// console.log(environment[\"appliance-version\"]);\r",
+									"\r",
+									"setTimeout(() => {}, 60000);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "https://{{safewalk-server}}:{{server-port}}/api/v1/multitenancy/customer/{{tenant-id}}/migrate/{{target-appliance-version}}/",
+							"protocol": "https",
+							"host": [
+								"{{safewalk-server}}"
+							],
+							"port": "{{server-port}}",
+							"path": [
+								"api",
+								"v1",
+								"multitenancy",
+								"customer",
+								"{{tenant-id}}",
+								"migrate",
+								"{{target-appliance-version}}",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Stop Tenant",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    utils.sleep(8000);\r",
+									"    checkIfStopped();\r",
+									"});\r",
+									"\r",
+									"\r",
+									"function checkIfStopped(){\r",
+									"    const url = \"https://\"+ environment[\"safewalk-server\"] + \":\" + environment[\"server-port\"] + \"/api/v1/multitenancy/customer/\"+ (environment['tenant-id']) + \"/status/\";\r",
+									"\r",
+									"    pm.sendRequest({\r",
+									"        url: url,\r",
+									"        method: 'GET',\r",
+									"        header: {\r",
+									"            'content-type': 'application/json',\r",
+									"            'authorization': \"Bearer \"+ environment[\"oc-access-token\"]\r",
+									"        },\r",
+									"\r",
+									"    }, function (error, response) {\r",
+									"        let status = response.json();\r",
+									"\r",
+									"        if(response.json()[\"runtime-info\"].status == \"f\"){\r",
+									"            test.tenantFailed();\r",
+									"            return\r",
+									"        }\r",
+									"\r",
+									"        if(response.json()[\"runtime-info\"].status != \"s\"){\r",
+									"            console.log(\"Not ready yet...\");\r",
+									"            utils.sleep(8000);\r",
+									"            checkIfStopped();\r",
+									"            return;\r",
+									"        }\r",
+									"        \r",
+									"        test.tenantStoppedTest(status);      \r",
+									"        console.log(\"Tenant stopped\")\r",
+									"    });\r",
+									"  \r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"setTimeout(() => {}, 60000);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"strictSSL": false
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json",
+								"disabled": true
+							},
+							{
+								"key": "Content-Transfer-Encoding",
+								"type": "text",
+								"value": "utf-8",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "https://{{safewalk-server}}:{{server-port}}/api/v1/multitenancy/customer/{{tenant-id}}/stop/",
+							"protocol": "https",
+							"host": [
+								"{{safewalk-server}}"
+							],
+							"port": "{{server-port}}",
+							"path": [
+								"api",
+								"v1",
+								"multitenancy",
+								"customer",
+								"{{tenant-id}}",
+								"stop",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Start Tenant",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    utils.sleep(8000);\r",
+									"    checkIfStarted();\r",
+									"});\r",
+									"\r",
+									"\r",
+									"function checkIfStarted(){\r",
+									"    const url = \"https://\"+ environment[\"safewalk-server\"] + \":\" + environment[\"server-port\"] + \"/api/v1/multitenancy/customer/\"+ (environment['tenant-id']) + \"/status/\";\r",
+									"\r",
+									"    pm.sendRequest({\r",
+									"        url: url,\r",
+									"        method: 'GET',\r",
+									"        header: {\r",
+									"            'content-type': 'application/json',\r",
+									"            'authorization': \"Bearer \"+ environment[\"oc-access-token\"]\r",
+									"        },\r",
+									"\r",
+									"    }, function (error, response) {\r",
+									"        let status = response.json();\r",
+									"\r",
+									"        if(response.json()[\"runtime-info\"].status == \"f\"){\r",
+									"            test.tenantFailed();\r",
+									"            return\r",
+									"        }\r",
+									"\r",
+									"        if(response.json()[\"runtime-info\"].status != \"r\"){\r",
+									"            console.log(\"Not ready yet...\");\r",
+									"            utils.sleep(10000);\r",
+									"            checkIfStarted();\r",
+									"            return;\r",
+									"        }\r",
+									"        \r",
+									"        test.tenantRunningTest(status);      \r",
+									"        console.log(\"Tenant started\")\r",
+									"    });\r",
+									"  \r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"setTimeout(() => {}, 60000);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"strictSSL": false
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json",
+								"disabled": true
+							},
+							{
+								"key": "Content-Transfer-Encoding",
+								"type": "text",
+								"value": "utf-8",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "https://{{safewalk-server}}:{{server-port}}/api/v1/multitenancy/customer/{{tenant-id}}/start/",
+							"protocol": "https",
+							"host": [
+								"{{safewalk-server}}"
+							],
+							"port": "{{server-port}}",
+							"path": [
+								"api",
+								"v1",
+								"multitenancy",
+								"customer",
+								"{{tenant-id}}",
+								"start",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Tenant",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"setTimeout(() => {}, 60000);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Content-Transfer-Encoding",
+								"value": "utf-8",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "https://{{safewalk-server}}:{{server-port}}/api/v1/multitenancy/customer/",
+							"protocol": "https",
+							"host": [
+								"{{safewalk-server}}"
+							],
+							"port": "{{server-port}}",
+							"path": [
+								"api",
+								"v1",
+								"multitenancy",
+								"customer",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Status Tenant",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// pm.environment.set(\"appliance-version\", environment[\"migration-appliance-version\"]);\r",
+									"// pm.environment.set(\"safewalk-version\", environment[\"migration-safewalk-version\"]);\r",
+									"\r",
+									"// postman.setEnvironmentVariable(\"appliance-version\", environment[\"migration-appliance-version\"]);\r",
+									"// postman.setEnvironmentVariable(\"safewalk-version\", environment[\"migration-safewalk-version\"]);\r",
+									"// setTimeout(() => {}, 60000);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var status = pm.response.json();",
+									"test.checkTargetVersionTest(status);",
+									"test.tenantRunningTest(status);",
+									"",
+									"pm.test(\"Get auth token\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    let authToken = (jsonData[\"access-tokens\"][\"authentication-api\"]);",
+									"    pm.environment.set(\"tenant-authentication-token\", authToken);",
+									"});",
+									"",
+									"pm.test(\"Get management token\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    let managementToken = (jsonData[\"access-tokens\"][\"admin-api\"]);",
+									"    pm.environment.set(\"tenant-management-token\", managementToken);",
+									"});",
+									"",
+									"",
+									"",
+									"",
+									"",
+									"",
+									"",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "https://{{safewalk-server}}:{{server-port}}/api/v1/multitenancy/customer/{{tenant-id}}/status/",
+							"protocol": "https",
+							"host": [
+								"{{safewalk-server}}"
+							],
+							"port": "{{server-port}}",
+							"path": [
+								"api",
+								"v1",
+								"multitenancy",
+								"customer",
+								"{{tenant-id}}",
+								"status",
+								""
+							],
+							"query": [
+								{
+									"key": "get_services_status",
+									"value": "true",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Tenant",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"setTimeout(() => {}, 60000);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    utils.sleep(5000);\r",
+									"    checkIfUpdated();\r",
+									"});\r",
+									"\r",
+									"function checkIfUpdated(){\r",
+									"    const url = \"https://\"+ environment[\"safewalk-server\"] + \":\" + environment[\"server-port\"] + \"/api/v1/multitenancy/customer/\"+ (environment['tenant-id']) + \"/status/\";\r",
+									"\r",
+									"    pm.sendRequest({\r",
+									"        url: url,\r",
+									"        method: 'GET',\r",
+									"        header: {\r",
+									"            'content-type': 'application/json',\r",
+									"            'authorization': \"Bearer \"+ environment[\"oc-access-token\"]\r",
+									"        },\r",
+									"\r",
+									"    }, function (error, response) {\r",
+									"        let status = response.json();\r",
+									"\r",
+									"        if(response.json()[\"runtime-info\"].status == \"f\"){\r",
+									"            test.tenantFailed();\r",
+									"            return\r",
+									"        }\r",
+									"\r",
+									"        if(response.json()[\"runtime-info\"].status != \"r\"){\r",
+									"            console.log(\"Not ready yet...\");\r",
+									"            utils.sleep(6000);\r",
+									"            return checkIfUpdated();\r",
+									"        }\r",
+									"\r",
+									"        pm.test(\"contact_name is timo\", function () {\r",
+									"            var jsonData = pm.response.json();\r",
+									"            pm.expect(jsonData.contact_name).to.equal(\"Timo\");\r",
+									"        });\r",
+									"\r",
+									"        pm.test(\"contact_email is ok\", function () {\r",
+									"            var jsonData = pm.response.json();\r",
+									"            pm.expect(jsonData.contact_email).to.equal(\"timoteo.beltran@altipeak.com\");\r",
+									"        });\r",
+									"\r",
+									"        pm.test(\"contact_phone is ok\", function () {\r",
+									"            var jsonData = pm.response.json();\r",
+									"            pm.expect(jsonData.contact_phone).to.equal(\"123456\");\r",
+									"        });\r",
+									"      \r",
+									"    });\r",
+									"\r",
+									"\r",
+									"}\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "contact_name",
+									"value": "Timo",
+									"type": "text"
+								},
+								{
+									"key": "contact_email",
+									"value": "timoteo.beltran@altipeak.com",
+									"type": "text"
+								},
+								{
+									"key": "contact_phone",
+									"value": "123456",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{safewalk-server}}:{{server-port}}/api/v1/multitenancy/customer/{{tenant-id}}/",
+							"protocol": "https",
+							"host": [
+								"{{safewalk-server}}"
+							],
+							"port": "{{server-port}}",
+							"path": [
+								"api",
+								"v1",
+								"multitenancy",
+								"customer",
+								"{{tenant-id}}",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Custom Settings",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"setTimeout(() => {}, 60000);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    utils.sleep(5000);\r",
+									"    checkIfUpdated();\r",
+									"});\r",
+									"\r",
+									"function checkIfUpdated(){\r",
+									"    const url = \"https://\"+ environment[\"safewalk-server\"] + \":\" + environment[\"server-port\"] + \"/api/v1/multitenancy/customer/\"+ (environment['tenant-id']) + \"/status/\";\r",
+									"\r",
+									"    pm.sendRequest({\r",
+									"        url: url,\r",
+									"        method: 'GET',\r",
+									"        header: {\r",
+									"            'content-type': 'application/json',\r",
+									"            'authorization': \"Bearer \"+ environment[\"oc-access-token\"]\r",
+									"        },\r",
+									"\r",
+									"    }, function (error, response) {\r",
+									"        let status = response.json();\r",
+									"\r",
+									"        if(response.json()[\"runtime-info\"].status == \"f\"){\r",
+									"            test.tenantFailed();\r",
+									"            return\r",
+									"        }\r",
+									"\r",
+									"        if(response.json()[\"runtime-info\"].status != \"r\"){\r",
+									"            console.log(\"Not ready yet...\");\r",
+									"            utils.sleep(6000);\r",
+									"            return checkIfUpdated();\r",
+									"        }\r",
+									"\r",
+									"        pm.test(\"logging_level is DEBUG\", function () {\r",
+									"            var jsonData = pm.response.json();\r",
+									"            pm.expect(jsonData.logging_level).to.equal(\"DEBUG\");\r",
+									"        });\r",
+									"\r",
+									"        pm.test(\"allow_external_auth_for_superusers is true\", function () {\r",
+									"            var jsonData = pm.response.json();\r",
+									"            pm.expect(jsonData.allow_external_auth_for_superusers).to.equal(true);\r",
+									"        });\r",
+									"\r",
+									"        pm.test(\"enable_ssp_conf is true\", function () {\r",
+									"            var jsonData = pm.response.json();\r",
+									"            pm.expect(jsonData.enable_ssp_conf).to.equal(true);\r",
+									"        });\r",
+									"      \r",
+									"    });\r",
+									"\r",
+									"\r",
+									"}\r",
+									"\r",
+									"// setTimeout(() => {}, 10000);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "logging_level",
+									"value": "DEBUG",
+									"type": "text"
+								},
+								{
+									"key": "enable_ssp_conf",
+									"value": "True",
+									"type": "text"
+								},
+								{
+									"key": "allow_external_auth_for_superusers",
+									"value": "True",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{safewalk-server}}:{{server-port}}/api/v1/multitenancy/customer/{{tenant-id}}/custom_settings/",
+							"protocol": "https",
+							"host": [
+								"{{safewalk-server}}"
+							],
+							"port": "{{server-port}}",
+							"path": [
+								"api",
+								"v1",
+								"multitenancy",
+								"customer",
+								"{{tenant-id}}",
+								"custom_settings",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Insert Licenses on Tenant",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    checkIfInserted();\r",
+									"});\r",
+									"\r",
+									"\r",
+									"function checkIfInserted(){\r",
+									"    const url = \"https://\"+ environment[\"safewalk-server\"] + \":\" + environment[\"server-port\"] + \"/api/v1/multitenancy/customer/\"+ (environment['tenant-id']) + \"/status/\";\r",
+									"\r",
+									"    pm.sendRequest({\r",
+									"        url: url,\r",
+									"        method: 'GET',\r",
+									"        header: {\r",
+									"            'content-type': 'application/json',\r",
+									"            'authorization': \"Bearer \"+ environment[\"oc-access-token\"]\r",
+									"        },\r",
+									"\r",
+									"    }, function (error, response) {\r",
+									"        let status = response.json();\r",
+									"\r",
+									"        if(response.json()[\"runtime-info\"].status == \"f\"){\r",
+									"            test.tenantFailed();\r",
+									"            return\r",
+									"        }\r",
+									"\r",
+									"        if(response.json()[\"runtime-info\"].status != \"r\"){\r",
+									"            console.log(\"Not ready yet...\");\r",
+									"            utils.sleep(5000);\r",
+									"            checkIfInserted();\r",
+									"            return;\r",
+									"        }\r",
+									"        \r",
+									"        test.checkLicenses(status, 20);\r",
+									"    });\r",
+									"  \r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"setTimeout(() => {}, 60000);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "device_type",
+									"value": "GeneralPurpose",
+									"type": "text"
+								},
+								{
+									"key": "count",
+									"value": "20",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{safewalk-server}}:{{server-port}}/api/v1/multitenancy/customer/{{tenant-id}}/insert_licenses/",
+							"protocol": "https",
+							"host": [
+								"{{safewalk-server}}"
+							],
+							"port": "{{server-port}}",
+							"path": [
+								"api",
+								"v1",
+								"multitenancy",
+								"customer",
+								"{{tenant-id}}",
+								"insert_licenses",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add superuser on Tenant",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"    var jsonData = pm.response.json();\r",
+									"    \r",
+									"    pm.test(\"username is ok\", function () {\r",
+									"        pm.expect(jsonData.username).to.equal(\"support\");\r",
+									"    });\r",
+									"\r",
+									"    pm.test(\"email is ok\", function () {\r",
+									"        pm.expect(jsonData.email).to.equal(\"support@altipeak.com\");\r",
+									"    });\r",
+									"\r",
+									"    pm.test(\"mobile is ok\", function () {\r",
+									"        pm.expect(jsonData.mobile).to.equal(\"0123456789\");\r",
+									"    });\r",
+									"\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"setTimeout(() => {}, 60000);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "support",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "Safewalk1",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "support@altipeak.com",
+									"type": "text"
+								},
+								{
+									"key": "mobile",
+									"value": "0123456789",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{safewalk-server}}:{{server-port}}/api/v1/multitenancy/customer/{{tenant-id}}/add_superuser/",
+							"protocol": "https",
+							"host": [
+								"{{safewalk-server}}"
+							],
+							"port": "{{server-port}}",
+							"path": [
+								"api",
+								"v1",
+								"multitenancy",
+								"customer",
+								"{{tenant-id}}",
+								"add_superuser",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "General Status",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// setTimeout(() => {}, 60000);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    var jsonData = pm.response.json();\r",
+									"    \r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{oc-access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "https://{{safewalk-server}}:{{server-port}}/api/v1/multitenancy/status/",
+							"protocol": "https",
+							"host": [
+								"{{safewalk-server}}"
+							],
+							"port": "{{server-port}}",
+							"path": [
+								"api",
+								"v1",
+								"multitenancy",
+								"status",
+								""
+							],
+							"query": [
+								{
+									"key": "customer",
+									"value": "automation",
+									"disabled": true
+								},
+								{
+									"key": "get_tenants_status",
+									"value": "true",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Release Licenses on Tenant",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    checkIfReleased();\r",
+									"});\r",
+									"\r",
+									"\r",
+									"function checkIfReleased(){\r",
+									"    const url = \"https://\"+ environment[\"safewalk-server\"] + \":\" + environment[\"server-port\"] + \"/api/v1/multitenancy/customer/\"+ (environment['tenant-id']) + \"/status/\";\r",
+									"\r",
+									"    pm.sendRequest({\r",
+									"        url: url,\r",
+									"        method: 'GET',\r",
+									"        header: {\r",
+									"            'content-type': 'application/json',\r",
+									"            'authorization': \"Bearer \"+ environment[\"oc-access-token\"]\r",
+									"        },\r",
+									"\r",
+									"    }, function (error, response) {\r",
+									"        let status = response.json();\r",
+									"\r",
+									"        if(response.json()[\"runtime-info\"].status == \"f\"){\r",
+									"            pm.expect.fail(\"Tenant failed\");\r",
+									"        }\r",
+									"\r",
+									"        if(response.json()[\"runtime-info\"].status != \"r\"){\r",
+									"            console.log(\"Not ready yet...\");\r",
+									"            utils.sleep(5000);\r",
+									"            checkIfReleased();\r",
+									"            return;\r",
+									"        }\r",
+									"        \r",
+									"        test.checkLicenses(status, 0);\r",
+									"    });\r",
+									"  \r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "device_type",
+									"value": "GeneralPurpose",
+									"type": "text"
+								},
+								{
+									"key": "count",
+									"value": "20",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{safewalk-server}}:{{server-port}}/api/v1/multitenancy/customer/{{tenant-id}}/release_licenses/",
+							"protocol": "https",
+							"host": [
+								"{{safewalk-server}}"
+							],
+							"port": "{{server-port}}",
+							"path": [
+								"api",
+								"v1",
+								"multitenancy",
+								"customer",
+								"{{tenant-id}}",
+								"release_licenses",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Rollback tenant",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    utils.sleep(8000);\r",
+									"    checkIfRolledback();\r",
+									"});\r",
+									"\r",
+									"\r",
+									"function checkIfRolledback(){\r",
+									"    const url = \"https://\"+ environment[\"safewalk-server\"] + \":\" + environment[\"server-port\"] + \"/api/v1/multitenancy/customer/\"+ (environment['tenant-id']) + \"/status/\";\r",
+									"\r",
+									"    pm.sendRequest({\r",
+									"        url: url,\r",
+									"        method: 'GET',\r",
+									"        header: {\r",
+									"            'content-type': 'application/json',\r",
+									"            'authorization': \"Bearer \"+ environment[\"oc-access-token\"]\r",
+									"        },\r",
+									"\r",
+									"    }, function (error, response) {\r",
+									"        let status = response.json();\r",
+									"\r",
+									"        if(response.json()[\"runtime-info\"].status == \"f\"){\r",
+									"            pm.expect.fail(\"Tenant failed\");\r",
+									"        }\r",
+									"\r",
+									"        if(response.json()[\"runtime-info\"].status != \"r\"){\r",
+									"            console.log(\"Not ready yet...\");\r",
+									"            utils.sleep(15000);\r",
+									"            return checkIfRolledback();\r",
+									"        }\r",
+									"        \r",
+									"        test.tenantRunningTest(status);\r",
+									"        test.checkVersionTest(status);           \r",
+									"    });\r",
+									"  \r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://{{safewalk-server}}:{{server-port}}/api/v1/multitenancy/customer/{{tenant-id}}/rollback/",
+							"protocol": "https",
+							"host": [
+								"{{safewalk-server}}"
+							],
+							"port": "{{server-port}}",
+							"path": [
+								"api",
+								"v1",
+								"multitenancy",
+								"customer",
+								"{{tenant-id}}",
+								"rollback",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Tenant",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"    utils.sleep(5000);\r",
+									"    checkIfDeleted();\r",
+									"});\r",
+									"\r",
+									"let counter = 0;\r",
+									"\r",
+									"function checkIfDeleted(){\r",
+									"    const url = \"https://\"+ environment[\"safewalk-server\"] + \":\" + environment[\"server-port\"] + \"/api/v1/multitenancy/customer/\"+ (environment['tenant-id']) + \"/status/\";\r",
+									"\r",
+									"    pm.sendRequest({\r",
+									"        url: url,\r",
+									"        method: 'GET',\r",
+									"        header: {\r",
+									"            'content-type': 'application/json',\r",
+									"            'authorization': \"Bearer \"+ environment[\"oc-access-token\"]\r",
+									"        },\r",
+									"\r",
+									"    }, function (error, response) {\r",
+									"        let status = response.json();\r",
+									"        counter++;\r",
+									"        \r",
+									"        if(counter >= 50){\r",
+									"            pm.expect.fail(\"Timeout Error\");\r",
+									"        }\r",
+									"\r",
+									"        if(response.json()[\"error\"] != \"Customer matching query does not exist.\"){\r",
+									"            console.log(\"Not ready yet...\");\r",
+									"            utils.sleep(6000);\r",
+									"            return checkIfDeleted();\r",
+									"        }\r",
+									"\r",
+									"        pm.test(\"customer doesnt exists\", function () {\r",
+									"            pm.expect(status.error).to.equal(\"Customer matching query does not exist.\");\r",
+									"        });\r",
+									"    });\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://{{safewalk-server}}:{{server-port}}/api/v1/multitenancy/customer/{{tenant-id}}/",
+							"protocol": "https",
+							"host": [
+								"{{safewalk-server}}"
+							],
+							"port": "{{server-port}}",
+							"path": [
+								"api",
+								"v1",
+								"multitenancy",
+								"customer",
+								"{{tenant-id}}",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{oc-access-token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"// const url = \"https://\"+ environment[\"safewalk-server\"] + \":\" + environment[\"server-port\"] + \"/api/v1/multitenancy/customer/\"+ (environment['tenant-id']) + \"/status/\";",
+							"",
+							"// function checkIfStatusIsReady(){",
+							"//     pm.sendRequest({",
+							"//         url: url,",
+							"//         method: 'GET',",
+							"//         header: {",
+							"//             'content-type': 'application/json',",
+							"//             'authorization': request.headers[\"authorization\"]",
+							"//         },",
+							"",
+							"//     }, function (error, response) {",
+							"//         counter = 0;",
+							"//         while(counter < 40){",
+							"//             if(response.json()[\"runtime-info\"].status != \"r\"){",
+							"//                 setTimeout(() => {}, 10000);",
+							"//                 console.log(\"Not ready yet...\");",
+							"//                 checkIfCreated();",
+							"//             }",
+							"//             counter++;",
+							"//         }",
+							"        ",
+							"//     });",
+							"// }"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{oc-access-token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"utils = {",
+					"    sleep: function(miliseconds) {",
+					"        var currentTime = new Date().getTime();",
+					"        while (currentTime + miliseconds >= new Date().getTime()) {}",
+					"    },",
+					"};",
+					"",
+					"test = {",
+					"    checkVersionTest: function(status){",
+					"        pm.test(\"bundle version is ok\", function () {",
+					"            pm.expect(status[\"bundle_version\"]).to.eqls(environment[\"stable-safewalk-version\"]);    ",
+					"        })",
+					"    },",
+					"",
+					"    checkTargetVersionTest: function(status){",
+					"        pm.test(\"Appliance-version is ok\", function () {",
+					"            pm.expect(status[\"bundle_version\"]).to.eqls(environment[\"target-safewalk-version\"]);    ",
+					"        })",
+					"    },",
+					"",
+					"    tenantRunningTest: function(status){",
+					"        pm.test(\"Tenant is running\", function () {",
+					"            pm.expect(status[\"runtime-info\"].status).to.eqls(\"r\");",
+					"        })",
+					"    },",
+					"",
+					"    tenantStoppedTest: function(status){",
+					"        pm.test(\"Tenant is stopped\", function () {",
+					"            pm.expect(status[\"runtime-info\"].status).to.eqls(\"s\");",
+					"        })",
+					"    },",
+					"",
+					"    countIs: function(status, number){",
+					"        pm.test(\"Count is \" + number, function () {",
+					"            pm.expect(status[\"count\"]).to.eqls(number);",
+					"        })",
+					"    },",
+					"",
+					"    checkLicenses: function(status, numberOfLicenses){",
+					"        pm.test(\"Total licenses are \" + numberOfLicenses, function () {",
+					"            pm.expect(status[\"licenses\"].total).to.eqls(numberOfLicenses);",
+					"        })",
+					"    },",
+					"",
+					"    tenantFailed: function(){",
+					"        pm.test(\"Tenant failed\", function () {",
+					"            pm.expect.fail(\"Tenant failed\")",
+					"        })",
+					"    }",
+					"}"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "safewalk-server",
+			"value": "oc.safewalk"
+		},
+		{
+			"key": "tenant-id",
+			"value": "t1",
+			"disabled": true
+		},
+		{
+			"key": "server-port",
+			"value": "8443"
+		},
+		{
+			"key": "tenant-lan-domain",
+			"value": "t1.safewalk"
+		},
+		{
+			"key": "tenant-dmz-domain",
+			"value": "t1.mt.safewalk.info"
+		},
+		{
+			"key": "tenant-api-port",
+			"value": "8449"
+		},
+		{
+			"key": "appliance-version",
+			"value": "4.2.6"
+		},
+		{
+			"key": "tenant-management-token",
+			"value": ""
+		},
+		{
+			"key": "test-tenant-user",
+			"value": "test",
+			"type": "string"
+		},
+		{
+			"key": "test-tenant-password",
+			"value": "test",
+			"type": "string"
+		},
+		{
+			"key": "fast-auth-sn",
+			"value": ""
+		},
+		{
+			"key": "totp-auth-sn",
+			"value": ""
+		},
+		{
+			"key": "totp-auth-instance-id",
+			"value": ""
+		},
+		{
+			"key": "fast-auth-instance-id",
+			"value": ""
+		},
+		{
+			"key": "fast-auth-instance-id-second",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "backup-sn",
+			"value": ""
+		},
+		{
+			"key": "backup-instance-id",
+			"value": ""
+		},
+		{
+			"key": "virtual-auth-sn",
+			"value": ""
+		},
+		{
+			"key": "virtual-instance-id",
+			"value": ""
+		},
+		{
+			"key": "virtual-otp",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "backup-code",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "hotp-flex-sn",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "ldap_configuration_id",
+			"value": ""
+		},
+		{
+			"key": "async-challenge",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "currentUsername",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "usernames",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "currentPassword",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "passwords",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

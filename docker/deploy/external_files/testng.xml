@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<suite name="Suite" thread-count="1" parallel="none" data-provider-thread-count="20">
+<!-- 
+ <test name="Test" thread-count="1" parallel="none">
+
+      <classes>
+       <class name="tests.orchestrator.DeleteCustomerTest"/>
+       <class name="tests.orchestrator.AddCustomerTest"/>
+       <class name="tsts.orchestrator.AddInternalUsersTest"/>
+        <class name="tests.orchestrator.ChangeCustomerSettings"/>
+        <class name="tests.orchestrator.ImportLicensesTest"/>
+         <class name="tests.orchestrator.ResourcesManagerTest"/>
+        <class name="tests.orchestrator.SynchronizeTenantLicensesTest"/>
+        <class name="tests.orchestrator.TroubleshootingPackageTest"/>
+        <class name="tests.orchestrator.TroubleshootingLogTest"/>
+        <class name="tests.orchestrator.UpdateApplianceVersionTest"/>
+        <class name="tests.orchestrator.DeleteCustomerTest"/>
+          </classes>
+
+ </test>
+
+ <test name="Test10" thread-count="1" parallel="none">
+
+      <classes>
+       <class name="tests.orchestrator.AddCustomerTest"/>
+       <class name="tests.tenant.superadmin.ImportPhysicalTokensTest"/>
+        <class name="tests.tenant.superadmin.InternalUsersTest"/>
+        <class name="tests.tenant.superadmin.LDAPConfigurationTest"/>
+       <class name="tests.tenant.superadmin.AgentConnectorTest"/>
+       <class name="tests.tenant.superadmin.DefaultSettingTest"/>
+         <class name="tests.tenant.superadmin.MessageDeliveryGatewayTest"/>
+        <class name="tests.tenant.superadmin.OrganizationLogoTest"/>
+        <class name="tests.tenant.superadmin.RadiusClientTest"/>
+        <class name="tests.tenant.superadmin.SAMLIntegrationTest"/>
+        <class name="tests.tenant.superadmin.SelfServicePortalCustomizationTest"/>
+        <class name="tests.tenant.superadmin.TroubleshootingLogTest"/>
+        <class name="tests.tenant.superadmin.TroubleshootingPackageTest"/>
+            <class name="tests.tenant.selfserviceportal.PasswordResetTest"/>
+      
+        <class name="tests.tenant.managementconsole.ManagementConsoleTest"/>
+        <class name="tests.tenant.selfserviceportal.SelfServicePortalTest"/>
+         <class name="tests.orchestrator.DeleteCustomerTest"/>
+      </classes>
+
+</test>   -->
+     <test name="Test1" thread-count="1" parallel="none">
+
+    <classes>
+      <class name="tests.orchestrator.AddCustomerTest"/>
+       <class name="tests.tenant.authentication.AuthenticationTestSetup"/>
+      <class name="tests.tenant.TestUsersCleanup"/>
+        <class name="testests.tenant.authentication.APISingleStepTOTP"/>
+	<!-- <class name="tests.tenant.authentication.RadiusSingleStepBackupCode"/>
+     <class name="tests.tenant.authentication.RadiusSingleStepPush"/>
+     <class name="tests.tenant.authentication.Radius2StepBackupCode"/>
+     <class name="tests.tenant.authentication.RadiusSingleStepTOTP"/>
+     <class name="tests.tenant.authentication.RadiusSingleStepPush"/>
+     <class name="tests.tenant.authentication.Radius2StepTOTP"/>
+     <class name="tests.tenant.authentication.Radius2StepBackupCode"/>
+     <class name="tests.tenant.authentication.APISingleStepStaticPassword"/>
+     <class name="tests.tenant.authentication.APISingleStepBackupCode"/>
+     <class name="tests.tenant.authentication.APISingleStepTOTP"/>
+     <class name="tests.tenant.authentication.API2StepTOTP"/>
+     <class name="tests.tenant.authentication.API2StepBackupCode"/>
+     <class name="tests.tenant.authentication.APISingleStepQR"/>
+     <class name="tests.tenant.authentication.APISingleStepPush"/>
+     <class name="tests.tenant.authentication.APIPushFallbackTest"/>
+     <class name="tests.tenant.authentication.API2StepVirtualOTP"/>
+      <class name="tests.tenant.authentication.APISingleStepPasswordTOTP"/>
+      <class name="tests.tenant.authentication.RadiusSingleStepPasswordTOTP"/>
+      </classes>
+    -->
+ </test>
+ <test name="Test3" thread-count="1" parallel="none">
+
+    <classes>
+      <class name="tests.tenant.TestUsersCleanup"/>
+       <class name="tests.orchestrator.DeleteCustomerTest"/>
+      </classes>
+
+ </test>
+
+</suite> <!-- Suite -->

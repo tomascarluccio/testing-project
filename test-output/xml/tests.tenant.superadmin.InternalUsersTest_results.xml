@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="merge"
+           tests="3"
+           failures="0"
+           errors="0"
+           skipped="0"
+           time="619.464">
+    <properties></properties>
+
+
+
+            <testcase
+                name="addUser"
+                time="305.240"
+                classname="tests.tenant.superadmin.InternalUsersTest">
+            </testcase>
+            <testcase
+                name="login"
+                time="10.278"
+                classname="tests.tenant.superadmin.InternalUsersTest">
+            </testcase>
+            <testcase
+                name="addUser"
+                time="303.946"
+                classname="tests.tenant.superadmin.InternalUsersTest">
+            </testcase>
+</testsuite>
