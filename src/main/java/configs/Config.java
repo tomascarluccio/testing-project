@@ -39,13 +39,15 @@ public class Config {
     public static int allSuitesCount;
 
     public static boolean docker;
+
+    public static boolean seleniumGrid;
+    public static String hubUrl;
     public static String deviceTypeGP;
     public static String initTenantLicensesCount;
 
     // Report
     public static String reportPath;
     public static String reportName;
-    public static String completedReportPath;
 
 
     // SMS
@@ -203,7 +205,7 @@ public class Config {
 
     public URL getPropertiesPath() {
         if (Config.configPath == null) {
-            Config.configPath = getClass().getClassLoader().getResource("tomv5.config.properties");
+            Config.configPath = getClass().getClassLoader().getResource("tom.config.properties");
         }
         return Config.configPath;
     }
@@ -262,9 +264,10 @@ public class Config {
         Config.testngAPITntPath = (String) Config.getProperty("testngAPITntPath", "/app/safewalk-testing/src/main/resources/testngAuthApi.xml");
         Config.testngRadiusPath = (String) Config.getProperty("testngRadiusPath", "/app/safewalk-testing/src/main/resources/testngAuthRadius.xml");
         Config.safewalkMode = (String) Config.getProperty("safewalkMode", "v5");
+        Config.hubUrl    = (String) Config.getProperty("hubUrl", "http://localhost:4444/wd/hub");
+        Config.seleniumGrid   =  Boolean.parseBoolean((String) Config.getProperty("seleniumGrid", "true"));
 
-
-        Config.docker = Boolean.parseBoolean((String) Config.getProperty("docker", "false"));
+    Config.docker = Boolean.parseBoolean((String) Config.getProperty("docker", "false"));
         Config.deviceTypeGP = (String) Config.getProperty("deviceTypeGP", "GeneralPurpose");
         Config.initTenantLicensesCount = (String) Config.getProperty("initTenantLicensesCount", "300");
         Config.imagePath = (String) Config.getProperty("imagePath", "/app/safewalk-testing/src/main/resources/swiss.png");
