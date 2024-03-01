@@ -1,13 +1,16 @@
 package tests;
 
+import java.net.URL;
 import java.time.Duration;
 
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterClass;
@@ -42,10 +45,22 @@ public abstract class BaseBrowserTest implements BaseTest  {
 			                    options.addArguments("--verbose");
 
 				}
-
-				DesiredCapabilities capabilities = new DesiredCapabilities();
-
-				this.driver = new ChromeDriver(options);
+				if (Config.seleniumGrid) {
+					options.addArguments("--no-sandbox");
+					options.addArguments("--headless");
+					options.addArguments("--disable-gpu");
+					options.addArguments("--disable-dev-shm-usage");
+					options.addArguments("--remote-allow-origins=*");
+					options.addArguments("--verbose");
+					DesiredCapabilities capabilities = new DesiredCapabilities(options);
+					capabilities.setBrowserName("chrome");
+					capabilities.setPlatform(Platform.LINUX);
+					driver = new RemoteWebDriver(new URL(Config.hubUrl), capabilities);
+				}
+				else {
+					DesiredCapabilities capabilities = new DesiredCapabilities();
+					this.driver = new ChromeDriver(options);
+				}
 			}
 
 			if (Config.browser.equalsIgnoreCase("firefox")) {
